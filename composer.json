@@ -8,5 +8,8 @@
             "email": "luke@carrier.im"
         }
     ],
-    "require": {}
+    "require": {},
+    "require-dev": {
+        "tideways/profiler": "^2.0"
+    }
 }
