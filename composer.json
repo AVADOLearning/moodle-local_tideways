@@ -1,0 +1,12 @@
+{
+    "name": "avadolearning/moodle-local_tideways",
+    "description": "Tideways APM integration for Moodle",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Luke Carrier",
+            "email": "luke@carrier.im"
+        }
+    ],
+    "require": {}
+}
