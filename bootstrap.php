@@ -51,7 +51,7 @@ function local_tideways_config() {
  *
  * @return void
  */
-function local_tideways_bootstrap() {
+function local_tideways_pre_setup() {
     $config = local_tideways_config();
 
     if ($config['development']) {
@@ -59,8 +59,13 @@ function local_tideways_bootstrap() {
     } else {
         Profiler::start($config['profiler_options']);
     }
-
-    page_type_transaction_namer::init();
 }
 
-local_tideways_bootstrap();
+/**
+ * Register a shutdown function to name transactions.
+ *
+ * @return void
+ */
+function local_tideways_post_setup() {
+    page_type_transaction_namer::init();
+}
