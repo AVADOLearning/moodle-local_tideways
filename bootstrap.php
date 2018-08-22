@@ -8,6 +8,7 @@
  */
 
 use local_tideways\page_type_transaction_namer;
+use local_tideways\sqlsrv_instrumentation;
 use Tideways\Profiler;
 
 // Don't allow direct access to this script.
@@ -21,6 +22,8 @@ if (!class_exists(Profiler::class)) {
 // Since the autoloader won't yet be available, manually source our
 // dependencies.
 require_once __DIR__ . '/classes/page_type_transaction_namer.php';
+require_once __DIR__ . '/classes/sqlsrv_instance.php';
+require_once __DIR__ . '/classes/sqlsrv_instrumentation.php';
 
 /**
  * Return "complete" configuration, with default values.
@@ -59,6 +62,8 @@ function local_tideways_pre_setup() {
     } else {
         Profiler::start($config['profiler_options']);
     }
+
+    sqlsrv_instrumentation::init();
 }
 
 /**

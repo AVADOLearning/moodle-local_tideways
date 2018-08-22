@@ -9,6 +9,7 @@
 This plugin aims to:
 
 1. Set meaningful names, based on Moodle page types, against transactions for easier identification of interesting transactions.
+2. Install instrumentation for SQL Server with the `sqlsrv` extension.
 
 ## Installation
 
