@@ -19,3 +19,10 @@ This plugin aims to:
    ```php
    require_once __DIR__ . '/local/tideways/bootstrap.php';
    ```
+
+## Configuration
+
+`$CFG->local_tideways` can be set (prior to including `bootstrap.php`) to an array containing the following keys to alter the plugin's behaviour:
+
+* `development` causes the profiler to be started in development mode, where it always collects a complete trace and profile. This is useful for debugging this plugin but should not be enabled in production environments.
+* `profiler_options` allows you to override options passed to the profiler at start-time.
