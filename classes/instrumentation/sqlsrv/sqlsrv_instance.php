@@ -7,10 +7,9 @@
  * @copyright 2018 AVADO Learning
  */
 
-namespace local_tideways;
+namespace local_tideways\instrumentation\sqlsrv;
 
 use coding_exception;
-use dml_exception;
 use Exception;
 use ReflectionMethod;
 use ReflectionProperty;

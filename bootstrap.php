@@ -7,8 +7,9 @@
  * @copyright 2018 AVADO Learning
  */
 
-use local_tideways\page_type_transaction_namer;
-use local_tideways\sqlsrv_instrumentation;
+use local_tideways\instrumentation\sqlsrv\sqlsrv_instrumentation;
+use local_tideways\service\service;
+use local_tideways\service\web_service;
 use Tideways\Profiler;
 
 // Don't allow direct access to this script.
@@ -21,9 +22,11 @@ if (!class_exists(Profiler::class)) {
 
 // Since the autoloader won't yet be available, manually source our
 // dependencies.
-require_once __DIR__ . '/classes/page_type_transaction_namer.php';
-require_once __DIR__ . '/classes/sqlsrv_instance.php';
-require_once __DIR__ . '/classes/sqlsrv_instrumentation.php';
+require_once __DIR__ . '/classes/service/service.php';
+require_once __DIR__ . '/classes/service/abstract_service.php';
+require_once __DIR__ . '/classes/service/web_service.php';
+require_once __DIR__ . '/classes/instrumentation/sqlsrv/sqlsrv_instance.php';
+require_once __DIR__ . '/classes/instrumentation/sqlsrv/sqlsrv_instrumentation.php';
 
 /**
  * Return "complete" configuration, with default values.
@@ -34,7 +37,7 @@ function local_tideways_config() {
     global $CFG;
 
     $config = property_exists($CFG, 'local_tideways')
-        ? $CFG->local_tideways : [];
+            ? $CFG->local_tideways : [];
 
     $config['development'] = array_key_exists('development', $config)
             && $config['development'];
@@ -50,27 +53,30 @@ function local_tideways_config() {
 }
 
 /**
- * Configure the profiler and begin profiling.
+ * Determine and initialise the service and install instrumentation.
  *
  * @return void
  */
 function local_tideways_pre_setup() {
+    /** @var service $LOCAL_TIDEWAYS_SERVICE */
+    global $LOCAL_TIDEWAYS_SERVICE;
+
     $config = local_tideways_config();
 
-    if ($config['development']) {
-        Profiler::startDevelopment($config['profiler_options']);
-    } else {
-        Profiler::start($config['profiler_options']);
-    }
+    $LOCAL_TIDEWAYS_SERVICE = new web_service($config);
+
+    $LOCAL_TIDEWAYS_SERVICE->pre_setup();
 
     sqlsrv_instrumentation::init();
 }
 
 /**
- * Register a shutdown function to name transactions.
+ * Let the service perform post-setup actions.
  *
  * @return void
  */
 function local_tideways_post_setup() {
-    page_type_transaction_namer::init();
+    /** @var service $LOCAL_TIDEWAYS_SERVICE */
+    global $LOCAL_TIDEWAYS_SERVICE;
+    $LOCAL_TIDEWAYS_SERVICE->post_setup();
 }
