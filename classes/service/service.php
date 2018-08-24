@@ -20,6 +20,13 @@ namespace local_tideways\service;
  */
 interface service {
     /**
+     * Get service name.
+     *
+     * @return string
+     */
+    public function get_service_name();
+
+    /**
      * Perform pre-setup actions.
      *
      * @return void

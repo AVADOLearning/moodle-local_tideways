@@ -19,6 +19,13 @@ class web_service extends abstract_service implements service {
     /**
      * @inheritdoc
      */
+    public function get_service_name() {
+        return 'web';
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function pre_setup() {
         $this->start_profiler();
     }

@@ -8,6 +8,7 @@
  */
 
 use local_tideways\instrumentation\sqlsrv\sqlsrv_instrumentation;
+use local_tideways\service\cron_service;
 use local_tideways\service\service;
 use local_tideways\service\web_service;
 use Tideways\Profiler;
@@ -24,6 +25,7 @@ if (!class_exists(Profiler::class)) {
 // dependencies.
 require_once __DIR__ . '/classes/service/service.php';
 require_once __DIR__ . '/classes/service/abstract_service.php';
+require_once __DIR__ . '/classes/service/cron_service.php';
 require_once __DIR__ . '/classes/service/web_service.php';
 require_once __DIR__ . '/classes/instrumentation/sqlsrv/sqlsrv_instance.php';
 require_once __DIR__ . '/classes/instrumentation/sqlsrv/sqlsrv_instrumentation.php';
@@ -61,10 +63,15 @@ function local_tideways_pre_setup() {
     /** @var service $LOCAL_TIDEWAYS_SERVICE */
     global $LOCAL_TIDEWAYS_SERVICE;
 
+    $iscron = defined('LOCAL_TIDEWAYS_CRON') && LOCAL_TIDEWAYS_CRON;
+
     $config = local_tideways_config();
-
-    $LOCAL_TIDEWAYS_SERVICE = new web_service($config);
-
+    if ($iscron) {
+        $LOCAL_TIDEWAYS_SERVICE = new cron_service($config);
+    } else {
+        $LOCAL_TIDEWAYS_SERVICE = new web_service($config);
+    }
+    Profiler::setServiceName($LOCAL_TIDEWAYS_SERVICE->get_service_name());
     $LOCAL_TIDEWAYS_SERVICE->pre_setup();
 
     sqlsrv_instrumentation::init();
