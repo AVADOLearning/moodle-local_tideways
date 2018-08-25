@@ -7,7 +7,7 @@
  * @copyright 2018 AVADO Learning
  */
 
-use local_tideways\instrumentation\sqlsrv\sqlsrv_instrumentation;
+use local_tideways\instrumentation\sqlsrv_instrumentation;
 use local_tideways\service\cron_service;
 use local_tideways\service\service;
 use local_tideways\service\web_service;
@@ -27,8 +27,7 @@ require_once __DIR__ . '/classes/service/service.php';
 require_once __DIR__ . '/classes/service/abstract_service.php';
 require_once __DIR__ . '/classes/service/cron_service.php';
 require_once __DIR__ . '/classes/service/web_service.php';
-require_once __DIR__ . '/classes/instrumentation/sqlsrv/sqlsrv_instance.php';
-require_once __DIR__ . '/classes/instrumentation/sqlsrv/sqlsrv_instrumentation.php';
+require_once __DIR__ . '/classes/instrumentation/sqlsrv_instrumentation.php';
 
 /**
  * Return "complete" configuration, with default values.
